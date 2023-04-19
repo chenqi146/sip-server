@@ -1,0 +1,6 @@
+server:
+  port: 58888
+
+spring:
+  application:
+    name: sip-server
