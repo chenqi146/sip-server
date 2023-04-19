@@ -1,18 +1,21 @@
 package com.cqmike.sip.config;
 
 import lombok.Data;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.validation.constraints.NotEmpty;
 
 /**
- * @ Description ossrs.net.srssip.config
- * @ Author StormBirds
- * @ Email xbaojun@gmail.com
- * @ Date 2022/2/18 22:37
+ * sip服务配置
+ *
+ * @author cqmike
+ * @since 1.0.0
+ * @return
  */
 @Data
 @ConfigurationProperties(prefix = "srs.sip", ignoreInvalidFields = true)
+@EnableAutoConfiguration
 public class SipConfig {
 
     /**
@@ -40,7 +43,7 @@ public class SipConfig {
     /**
      * sip监听udp端口
      */
-    private Integer port = 5060;
+    private Integer port = 55060;
 
     /**
      * 国标设备注册密码

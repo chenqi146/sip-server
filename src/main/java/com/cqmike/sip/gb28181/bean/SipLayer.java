@@ -1,5 +1,7 @@
 package com.cqmike.sip.gb28181.bean;
 
+import com.cqmike.sip.config.SipConfig;
+import com.cqmike.sip.gb28181.listeners.base.SipServerListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +27,7 @@ public class SipLayer {
     private SipConfig sipConfig;
 
     @Resource
-    private SipServerListeners sipServerListeners;
+    private SipServerListener sipServerListener;
 
     @Bean
     public SipFactory sipFactory() {
@@ -66,19 +68,15 @@ public class SipLayer {
     @Bean
     @DependsOn("sipStack")
     public SipProvider sipTcpProvider(SipStack sipStack) {
-        ListeningPoint listeningPoint = null;
+        ListeningPoint listeningPoint;
         SipProvider sipProvider = null;
         try {
             listeningPoint = sipStack.createListeningPoint(sipConfig.getIp(), sipConfig.getPort(), ListeningPoint.TCP);
             sipProvider = sipStack.createSipProvider(listeningPoint);
-            sipProvider.addSipListener(sipServerListeners);
+            sipProvider.addSipListener(sipServerListener);
             log.info("tcp server {} is running on port {}.", listeningPoint.getIPAddress(), listeningPoint.getPort());
-        } catch (TransportNotSupportedException e) {
-            e.printStackTrace();
-        } catch (InvalidArgumentException | ObjectInUseException e) {
-            e.printStackTrace();
-        } catch (TooManyListenersException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO: 2023-04-20 自定义异常来进行处理
         }
         return sipProvider;
     }
@@ -86,15 +84,15 @@ public class SipLayer {
     @Bean
     @DependsOn("sipStack")
     public SipProvider sipUdpProvider(SipStack sipStack) {
-        ListeningPoint listeningPoint = null;
+        ListeningPoint listeningPoint;
         SipProvider sipProvider = null;
         try {
             listeningPoint = sipStack.createListeningPoint(sipConfig.getIp(), sipConfig.getPort(), ListeningPoint.UDP);
             sipProvider = sipStack.createSipProvider(listeningPoint);
-            sipProvider.addSipListener(sipServerListeners);
+            sipProvider.addSipListener(sipServerListener);
             log.info("udp server {} is running on port {}.", listeningPoint.getIPAddress(), listeningPoint.getPort());
         } catch (TransportNotSupportedException | InvalidArgumentException | ObjectInUseException | TooManyListenersException e) {
-            e.printStackTrace();
+            // TODO: 2023-04-20 自定义异常来进行处理
         }
         return sipProvider;
     }
