@@ -1,0 +1,15 @@
+srs:
+  sip:
+    name: srs-sip
+    serial: 34020000002000000001
+    realm: 3402000000
+    ip: 192.168.50.58
+    port: 55060
+    password: 12345678
+    ack_timeout: 30
+    keepalive_timeout: 120
+    auto_play: true
+    invite_port_fixed: true
+    query_catalog_interval: 60
+    trace_level: NONE
+    log_message_content: false

@@ -12,29 +12,19 @@
     <groupId>com.cqmike.sip</groupId>
     <artifactId>sip-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>sip-server</name>
+    <modules>
+        <module>common</module>
+        <module>core</module>
+        <module>boot</module>
+    </modules>
 
     <properties>
         <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -45,26 +35,6 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.73</version>
-        </dependency>
-
-
-        <!-- xml解析库 -->
-        <dependency>
-            <groupId>org.dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>2.1.3</version>
-        </dependency>
-        <!--SIP协议解析库-->
-        <dependency>
-            <groupId>javax.sip</groupId>
-            <artifactId>jain-sip-ri</artifactId>
-            <version>1.3.0-91</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.10.2</version>
         </dependency>
 
         <dependency>
