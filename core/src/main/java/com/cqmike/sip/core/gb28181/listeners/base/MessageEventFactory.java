@@ -16,6 +16,8 @@ import org.reflections.Reflections;
 import javax.sip.RequestEvent;
 import javax.sip.ResponseEvent;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -88,36 +90,45 @@ public class MessageEventFactory {
 
 
     public static AbstractMessageRequestEvent getMessageRequestEvent(SipMessageType method, RequestEvent requestEvent) {
-        AbstractMessageRequestEvent requestEventAbstract = MESSAGE_REQUEST_EVENT_MAP.get(method);
+        AbstractMessageRequestEvent event = MESSAGE_REQUEST_EVENT_MAP.get(method);
+        if (Objects.isNull(event)) {
+            return null;
+        }
         try {
-            requestEventAbstract.init(requestEvent);
+            event.init(requestEvent);
         } catch (Exception e) {
             log.error("sip消息请求初始化和解析失败: method: {}, event: {}, error: ", method, requestEvent, e);
             return null;
         }
-        return requestEventAbstract;
+        return event;
     }
 
     public static AbstractRequestEvent getRequestEvent(SipMethod method, RequestEvent requestEvent) {
-        AbstractRequestEvent requestEventAbstract = REQUEST_EVENT_MAP.get(method);
+        AbstractRequestEvent event = REQUEST_EVENT_MAP.get(method);
+        if (Objects.isNull(event)) {
+            return null;
+        }
         try {
-            requestEventAbstract.init(requestEvent);
+            event.init(requestEvent);
         } catch (Exception e) {
             log.error("sip请求初始化和解析失败: method: {}, event: {}, error: ", method, requestEvent, e);
             return null;
         }
-        return requestEventAbstract;
+        return event;
     }
 
 
     public static AbstractResponseEvent getResponseEvent(SipResMethod method, ResponseEvent responseEvent) {
-        AbstractResponseEvent responseEventAbstract = RESPONSE_EVENT_MAP.get(method);
+        AbstractResponseEvent event = RESPONSE_EVENT_MAP.get(method);
+        if (Objects.isNull(event)) {
+            return null;
+        }
         try {
-            responseEventAbstract.init(responseEvent);
+            event.init(responseEvent);
         } catch (Exception e) {
             log.error("sip响应初始化和解析失败: method: {}, event: {}, error: ", method, responseEvent, e);
             return null;
         }
-        return responseEventAbstract;
+        return event;
     }
 }

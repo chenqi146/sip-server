@@ -1,5 +1,7 @@
 package com.cqmike.sip.core.gb28181.transaction;
 
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.cqmike.sip.core.entity.SipDevice;
 import com.cqmike.sip.core.gb28181.config.SipConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -54,22 +56,23 @@ public class SipProtocolFactory {
         return messageFactory.createResponse(responseStatus, request);
     }
 
-    public Request buildRequest(SipDevice sipDevice,String method) throws ParseException, InvalidArgumentException {
+    public Request buildRequest(SipDevice sipDevice, String method) throws ParseException, InvalidArgumentException {
+        String tm = Long.toString(System.currentTimeMillis());
         //请求行
-        SipURI requestLine = addressFactory.createSipURI(sipConfig.getSerial(), sipConfig.getRealm());
+        SipURI requestLine = addressFactory.createSipURI(sipConfig.getSerial(), StrUtil.format("{}:{}", sipDevice.getIp(), sipDevice.getPort()));
         //Via头
         List<ViaHeader> viaHeaderList = new ArrayList<>();
-        ViaHeader viaHeader = headerFactory.createViaHeader(sipConfig.getIp(), sipConfig.getPort(), sipDevice.getMediaTransport(), null);
-        viaHeader.setRPort();
+        ViaHeader viaHeader = headerFactory.createViaHeader(sipConfig.getIp(), sipConfig.getPort(), sipDevice.getMediaTransport(), "FromSip" + tm);
+        viaHeader.setReceived(sipConfig.getIp());
+        viaHeader.setParameter("rport", sipConfig.getPort().toString());
         viaHeaderList.add(viaHeader);
 
         //To头   设备域和服务器的域一样
         SipURI toAddress = addressFactory.createSipURI(sipDevice.getSipDeviceId(), sipConfig.getRealm());
         Address toNameAddress = addressFactory.createAddress(toAddress);
-        ToHeader toHeader = headerFactory.createToHeader(toNameAddress, null);
+        ToHeader toHeader = headerFactory.createToHeader(toNameAddress, "FromSip" + tm);
 
         //From头
-        String tm = Long.toString(System.currentTimeMillis());
         SipURI from = addressFactory.createSipURI(sipConfig.getSerial(), sipConfig.getRealm());
         Address fromNameAddress = addressFactory.createAddress(from);
         FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress, "FromSip" + tm);

@@ -29,6 +29,7 @@ public abstract class AbstractMessageRequestEvent {
 
     public void init(RequestEvent requestEvent) throws Exception {
         Request request = requestEvent.getRequest();
+        this.requestEvent = requestEvent;
         this.content = new String(request.getRawContent(),"GBK");
         this.parse();
     }

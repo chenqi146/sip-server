@@ -1,7 +1,9 @@
 package com.cqmike.sip.core.service;
 
+import com.cqmike.sip.core.entity.DeviceChannel;
 import com.cqmike.sip.core.entity.SipDevice;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -31,4 +33,15 @@ public interface SipDeviceService {
     Optional<SipDevice> findBySipDeviceId(String sipDeviceId);
 
     void updateOnline(SipDevice device);
+
+    /**
+     * 保存或更新设备通道
+     *
+     * @author cqmike
+     * @param sipDeviceId
+     * @param deviceChannels
+     * @since 1.0.0
+     * @return
+     */
+    void saveOrUpdateDeviceChannel(String sipDeviceId, Collection<DeviceChannel> deviceChannels);
 }

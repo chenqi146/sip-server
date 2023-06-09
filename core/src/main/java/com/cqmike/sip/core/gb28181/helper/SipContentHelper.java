@@ -20,12 +20,25 @@ public final class SipContentHelper {
      * @since 1.0.0
      */
     public static String buildCatalogContentXml(String deviceId) {
-        Document document = DocumentHelper.createDocument();
-        Element query = document.addElement("Query");
-        query.addElement("CmdType").addText("Catalog");
-        query.addElement("SN").addText("1");
-        query.addElement("DeviceID").addText(deviceId);
-        return document.asXML();
+        StringBuilder catalogXml = new StringBuilder(200);
+        catalogXml.append("<?xml version=\"1.0\" encoding=\"GB2312\"?>\r\n");
+        catalogXml.append("<Query>\r\n");
+        catalogXml.append("<CmdType>Catalog</CmdType>\r\n");
+        catalogXml.append("<SN>")
+                .append("1")
+                .append("</SN>\r\n");
+        catalogXml.append("<DeviceID>")
+                .append(deviceId)
+                .append("</DeviceID>\r\n");
+        catalogXml.append("</Query>\r\n");
+        return catalogXml.toString();
+//
+//        Document document = DocumentHelper.createDocument();
+//        Element query = document.addElement("Query");
+//        query.addElement("CmdType").addText("Catalog");
+//        query.addElement("SN").addText("1");
+//        query.addElement("DeviceID").addText(deviceId);
+//        return document.asXML();
     }
 
     /**

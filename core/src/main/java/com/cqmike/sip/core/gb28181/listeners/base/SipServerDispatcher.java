@@ -70,9 +70,9 @@ public class SipServerDispatcher implements SipListener {
     @EventListener
     public void processMessage(MessageDispatchEvent messageDispatchEvent) {
         try {
-            log.info("收到sip请求message消息: {}", messageDispatchEvent);
+            RequestEvent requestEvent = messageDispatchEvent.getRequestEvent();
             SipMessageType sipMessageType = messageDispatchEvent.getSipMessageType();
-            AbstractMessageRequestEvent event = MessageEventFactory.getMessageRequestEvent(sipMessageType, messageDispatchEvent.getRequestEvent());
+            AbstractMessageRequestEvent event = MessageEventFactory.getMessageRequestEvent(sipMessageType, requestEvent);
             if (Objects.isNull(event)) {
                 return;
             }

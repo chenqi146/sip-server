@@ -4,11 +4,11 @@ import com.cqmike.sip.core.entity.SipDevice;
 import com.cqmike.sip.core.gb28181.cmd.SipCommander;
 import com.cqmike.sip.core.gb28181.config.SipConfig;
 import com.cqmike.sip.core.gb28181.event.request.RegisterRequestEvent;
+import com.cqmike.sip.core.gb28181.listeners.base.AbstractSipListener;
 import com.cqmike.sip.core.gb28181.transaction.ServerTransactionFactory;
 import com.cqmike.sip.core.gb28181.transaction.SipProtocolFactory;
 import com.cqmike.sip.core.service.SipDeviceService;
 import gov.nist.javax.sip.clientauthutils.DigestServerAuthenticationHelper;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -30,17 +30,16 @@ import java.util.Objects;
  **/
 @Slf4j
 @Component
-@RequiredArgsConstructor
-public class RequestListener {
-
-    private final SipConfig sipConfig;
-
-    private final ServerTransactionFactory serverTransactionFactory;
-    private final SipProtocolFactory sipProtocolFactory;
-    private final HeaderFactory headerFactory;
+public class RequestListener extends AbstractSipListener {
 
     private final SipDeviceService sipDeviceService;
-    private final SipCommander sipCommander;
+
+    public RequestListener(SipConfig sipConfig, ServerTransactionFactory serverTransactionFactory,
+                           SipProtocolFactory sipProtocolFactory, HeaderFactory headerFactory,
+                           SipCommander sipCommander, SipDeviceService sipDeviceService) {
+        super(sipConfig, serverTransactionFactory, sipProtocolFactory, headerFactory, sipCommander);
+        this.sipDeviceService = sipDeviceService;
+    }
 
     @EventListener
     public void registerEvent(RegisterRequestEvent event) {
@@ -59,7 +58,8 @@ public class RequestListener {
 
             SipDevice device = new SipDevice();
             device.setSipDeviceId(event.getDeviceId());
-            device.setHost(event.getHost());
+            device.setIp(event.getHost());
+            device.setPort(event.getPort());
             device.setRemotePort(event.getRemotePort());
             device.setRemoteIp(event.getRemoteIp());
             device.setMediaTransport(event.getTransport());
@@ -75,7 +75,6 @@ public class RequestListener {
             response.addHeader(requestEvent.getRequest().getHeader(ContactHeader.NAME));
             response.addHeader(requestEvent.getRequest().getExpires());
             serverTransactionFactory.sendResponse(requestEvent, response);
-            log.info("接收到注册请求 {}", event);
             if (event.getExpires() <= 0) {
                 // 注销设备
                 device.setOnline(false);

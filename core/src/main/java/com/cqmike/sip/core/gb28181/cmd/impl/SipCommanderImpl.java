@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.sip.ClientTransaction;
 import javax.sip.InvalidArgumentException;
+import javax.sip.SipException;
 import javax.sip.message.Request;
 import java.text.ParseException;
 
@@ -35,11 +37,13 @@ public class SipCommanderImpl implements SipCommander {
      * @since 1.0.0
      */
     @Override
-    public void catalogQuery(SipDevice sipDevice) throws InvalidArgumentException, ParseException {
+    public void catalogQuery(SipDevice sipDevice) throws InvalidArgumentException, ParseException, SipException {
         Request request = sipProtocolFactory.buildRequest(sipDevice, Request.MESSAGE);
         String catalogContentXml = SipContentHelper.buildCatalogContentXml(sipDevice.getSipDeviceId());
         sipProtocolFactory.setContent(request, catalogContentXml);
-        serverTransactionFactory.sendRequest(request);
+        ClientTransaction clientTransaction = serverTransactionFactory.getClientTransaction(request);
+        clientTransaction.sendRequest();
+//        serverTransactionFactory.sendRequest(request);
         log.info("下发catalog查询消息: {}", sipDevice.getSipDeviceId());
 
     }

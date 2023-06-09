@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 /**
  * SipDevice
@@ -18,7 +19,8 @@ public class SipDevice extends BaseEntity {
 
     private String sipDeviceId;
 
-    private String host;
+    private String ip;
+    private Integer port;
 
     /**
      * 设备名称
@@ -108,4 +110,7 @@ public class SipDevice extends BaseEntity {
      * 创建时间
      */
     private LocalDateTime createdAt;
+
+
+    private Collection<DeviceChannel> deviceChannels;
 }

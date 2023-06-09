@@ -3,6 +3,7 @@ package com.cqmike.sip.core.gb28181.cmd;
 import com.cqmike.sip.core.entity.SipDevice;
 
 import javax.sip.InvalidArgumentException;
+import javax.sip.SipException;
 import java.text.ParseException;
 
 /**
@@ -20,5 +21,5 @@ public interface SipCommander {
      * @since 1.0.0
      * @return
      */
-    void catalogQuery(SipDevice sipDevice) throws InvalidArgumentException, ParseException;
+    void catalogQuery(SipDevice sipDevice) throws InvalidArgumentException, ParseException, SipException;
 }

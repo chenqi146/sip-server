@@ -40,6 +40,10 @@ public class ServerTransactionFactory {
         return (isTCP(request) ? sipTcpProvider : sipUdpProvider).getNewServerTransaction(request);
     }
 
+    public ClientTransaction getClientTransaction(Request request) throws SipException {
+        return (isTCP(request) ? sipTcpProvider : sipUdpProvider).getNewClientTransaction(request);
+    }
+
     public ServerTransaction getServerTransaction(RequestEvent request) throws SipException {
         ServerTransaction serverTransaction = request.getServerTransaction();
         if (Objects.nonNull(serverTransaction)) {

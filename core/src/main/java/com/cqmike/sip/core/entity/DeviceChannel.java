@@ -1,12 +1,10 @@
-package com.cqmike.sip.core.gb28181.dto;
+package com.cqmike.sip.core.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
 
@@ -17,17 +15,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @Data
-@XmlAccessorType(XmlAccessType.FIELD)
-public class DeviceChannelDTO implements Serializable {
+public class DeviceChannel implements Serializable {
 
     private static final long serialVersionUID = 1529923940089910630L;
 
+    private String sipDeviceId;
     /**
      * <pre>
      *
      * </pre>
      */
-    @XmlElement(name = "DeviceID")
     private String channelId;
 
     /**
@@ -35,7 +32,6 @@ public class DeviceChannelDTO implements Serializable {
      * 通道名称
      * </pre>
      */
-    @XmlElement(name = "Name")
     private String name;
 
     /**
@@ -43,7 +39,6 @@ public class DeviceChannelDTO implements Serializable {
      * 设备厂家
      * </pre>
      */
-    @XmlElement(name = "Manufacturer")
     private String manufacturer;
 
     /**
@@ -51,7 +46,6 @@ public class DeviceChannelDTO implements Serializable {
      * 设备型号
      * </pre>
      */
-    @XmlElement(name = "Model")
     private String model;
 
     /**
@@ -59,7 +53,6 @@ public class DeviceChannelDTO implements Serializable {
      * 设备归属
      * </pre>
      */
-    @XmlElement(name = "Owner")
     private String owner;
 
     /**
@@ -67,7 +60,6 @@ public class DeviceChannelDTO implements Serializable {
      * 行政区号
      * </pre>
      */
-    @XmlElement(name = "CivilCode")
     private String civilCode;
 
     /**
@@ -75,7 +67,6 @@ public class DeviceChannelDTO implements Serializable {
      * 警区
      * </pre>
      */
-    @XmlElement(name = "Block")
     private String block;
 
     /**
@@ -83,7 +74,6 @@ public class DeviceChannelDTO implements Serializable {
      * 安装地址
      * </pre>
      */
-    @XmlElement(name = "address")
     private String Address;
 
     /**
@@ -91,7 +81,6 @@ public class DeviceChannelDTO implements Serializable {
      *  当为设备时, 是否有子设备, 1-有,0-没有
      * </pre>
      */
-    @XmlElement(name = "Parental")
     private Integer parental;
 
     /**
@@ -99,7 +88,6 @@ public class DeviceChannelDTO implements Serializable {
      *  父设备/区域/系统ID
      * </pre>
      */
-    @XmlElement(name = "ParentID")
     private String parentId;
 
     /**
@@ -107,7 +95,6 @@ public class DeviceChannelDTO implements Serializable {
      *  安全通道 0否 1是
      * </pre>
      */
-    @XmlElement(name = "SafetyWay")
     private Integer safetyWay;
 
     /**
@@ -116,7 +103,6 @@ public class DeviceChannelDTO implements Serializable {
      * 允许值: 1, 2, 3
      * </pre>
      */
-    @XmlElement(name = "RegisterWay")
     private String registerWay;
 
     /**
@@ -124,7 +110,6 @@ public class DeviceChannelDTO implements Serializable {
      *
      * </pre>
      */
-    @XmlElement(name = "CertNum")
     private String certNum;
 
     /**
@@ -132,7 +117,6 @@ public class DeviceChannelDTO implements Serializable {
      * SSL安全认证 0否 1是
      * </pre>
      */
-    @XmlElement(name = "Certifiable")
     private Integer certifiable;
 
     /**
@@ -140,7 +124,6 @@ public class DeviceChannelDTO implements Serializable {
      *
      * </pre>
      */
-    @XmlElement(name = "ErrCode")
     private String errCode;
 
     /**
@@ -148,7 +131,6 @@ public class DeviceChannelDTO implements Serializable {
      *
      * </pre>
      */
-    @XmlElement(name = "EndTime")
     private String endTime;
 
     /**
@@ -157,7 +139,6 @@ public class DeviceChannelDTO implements Serializable {
      * 允许值: 0, 1
      * </pre>
      */
-    @XmlElement(name = "Secrecy")
     private Integer secrecy;
 
     /**
@@ -165,7 +146,6 @@ public class DeviceChannelDTO implements Serializable {
      * 设备/区域/系统IP地址
      * </pre>
      */
-    @XmlElement(name = "IPAddress")
     private String ipAddress;
 
     /**
@@ -173,7 +153,6 @@ public class DeviceChannelDTO implements Serializable {
      * 设备/区域/系统端口
      * </pre>
      */
-    @XmlElement(name = "Port")
     private Integer port;
 
     /**
@@ -181,7 +160,6 @@ public class DeviceChannelDTO implements Serializable {
      * 通道密码
      * </pre>
      */
-    @XmlElement(name = "Password")
     private String password;
 
     /**
@@ -189,7 +167,6 @@ public class DeviceChannelDTO implements Serializable {
      *  在线状态
      * </pre>
      */
-    @XmlElement(name = "Status")
     private String status;
 
     /**
@@ -197,7 +174,6 @@ public class DeviceChannelDTO implements Serializable {
      * 经度
      * </pre>
      */
-    @XmlElement(name = "longitude")
     private float Longitude;
 
     /**
@@ -205,7 +181,6 @@ public class DeviceChannelDTO implements Serializable {
      *  纬度
      * </pre>
      */
-    @XmlElement(name = "latitude")
     private float Latitude;
 
 }

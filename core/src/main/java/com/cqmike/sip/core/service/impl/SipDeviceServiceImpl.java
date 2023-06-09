@@ -1,6 +1,7 @@
 package com.cqmike.sip.core.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.cqmike.sip.core.entity.DeviceChannel;
 import com.cqmike.sip.core.entity.SipDevice;
 import com.cqmike.sip.core.service.SipDeviceService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -86,6 +88,23 @@ public class SipDeviceServiceImpl implements SipDeviceService {
             dev.setOnline(device.isOnline());
             dev.setUpdatedAt(LocalDateTime.now());
             map.put(dev.getSipDeviceId(), dev);
+        });
+    }
+
+    /**
+     * 保存或更新设备通道
+     *
+     * @param sipDeviceId
+     * @param deviceChannels
+     * @return
+     * @author cqmike
+     * @since 1.0.0
+     */
+    @Override
+    public void saveOrUpdateDeviceChannel(String sipDeviceId, Collection<DeviceChannel> deviceChannels) {
+        this.findBySipDeviceId(sipDeviceId).ifPresent(dev -> {
+            dev.setDeviceChannels(deviceChannels);
+            dev.setChannelCount(deviceChannels.size());
         });
     }
 }
