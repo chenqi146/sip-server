@@ -19,7 +19,6 @@ public class DeviceChannel implements Serializable {
 
     private static final long serialVersionUID = 1529923940089910630L;
 
-    private String sipDeviceId;
     /**
      * <pre>
      *

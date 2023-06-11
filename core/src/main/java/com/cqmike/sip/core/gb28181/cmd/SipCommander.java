@@ -1,6 +1,7 @@
 package com.cqmike.sip.core.gb28181.cmd;
 
 import com.cqmike.sip.core.entity.SipDevice;
+import com.cqmike.sip.core.gb28181.dto.InviteStreamDTO;
 
 import javax.sip.InvalidArgumentException;
 import javax.sip.SipException;
@@ -16,10 +17,20 @@ public interface SipCommander {
     /**
      * 查询设备信息
      *
-     * @author cqmike 2
      * @param sipDevice
-     * @since 1.0.0
      * @return
+     * @author cqmike 2
+     * @since 1.0.0
      */
-    void catalogQuery(SipDevice sipDevice) throws InvalidArgumentException, ParseException, SipException;
+    void catalogQuery(SipDevice sipDevice);
+
+    /**
+     * 邀请设备推流
+     *
+     * @param dto
+     * @return
+     * @author cqmike
+     * @since 1.0.0
+     */
+    void inviteStream(InviteStreamDTO dto);
 }

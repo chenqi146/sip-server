@@ -1,6 +1,7 @@
 package com.cqmike.sip.core.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.cqmike.sip.core.entity.DeviceChannel;
 import com.cqmike.sip.core.entity.SipDevice;
 import com.cqmike.sip.core.service.SipDeviceService;
@@ -91,6 +92,16 @@ public class SipDeviceServiceImpl implements SipDeviceService {
         });
     }
 
+    @Override
+    public void updateKeepLive(String sipDeviceId) {
+        this.findBySipDeviceId(sipDeviceId).ifPresent(dev -> {
+            dev.setOnline(true);
+            dev.setUpdatedAt(LocalDateTime.now());
+            dev.setLastKeepaliveAt(LocalDateTime.now());
+            map.put(dev.getSipDeviceId(), dev);
+        });
+    }
+
     /**
      * 保存或更新设备通道
      *
@@ -103,7 +114,7 @@ public class SipDeviceServiceImpl implements SipDeviceService {
     @Override
     public void saveOrUpdateDeviceChannel(String sipDeviceId, Collection<DeviceChannel> deviceChannels) {
         this.findBySipDeviceId(sipDeviceId).ifPresent(dev -> {
-            dev.setDeviceChannels(deviceChannels);
+            dev.setDeviceChannels(CollUtil.newArrayList(deviceChannels));
             dev.setChannelCount(deviceChannels.size());
         });
     }

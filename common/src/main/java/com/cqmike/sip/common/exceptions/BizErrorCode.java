@@ -14,6 +14,8 @@ public enum BizErrorCode implements IEnum<String>, ErrorCodeInterface {
     PARAMETER_ERROR("403", "参数错误"),
     SIP_BEAN_INIT_ERROR("SIP101", "sip的bean初始化错误"),
     SIP_PARSE_ERROR("SIP102", "sip协议解析异常"),
+    SIP_REQ_BUILD_ERROR("SIP103", "sip请求构建异常"),
+    SIP_ANY_NOT_EXIST_ERROR("SIP104", "sip请求资源不存在异常"),
     ;
 
     private final String errorCode;

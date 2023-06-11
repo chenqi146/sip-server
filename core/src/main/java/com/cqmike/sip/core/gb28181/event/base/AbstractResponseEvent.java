@@ -49,6 +49,14 @@ public abstract class AbstractResponseEvent {
     }
 
 
+    protected void responseAck(){
+        try {
+            this.dialog.sendAck(reqAck);
+        } catch (SipException e) {
+            log.error("响应消息发送失败",e);
+        }
+    }
+
     protected boolean isError() {
         return response.getStatusCode() / 100 >= 4;
     }

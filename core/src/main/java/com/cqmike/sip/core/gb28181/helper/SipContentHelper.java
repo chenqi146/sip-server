@@ -41,29 +41,33 @@ public final class SipContentHelper {
 //        return document.asXML();
     }
 
+    public static String buildRealTimeMediaStreamInviteContent(String channelId, String ip, int rtpPort, String ssrc) {
+        return buildRealTimeMediaStreamInviteContent(channelId, ip, rtpPort, false, false, ssrc);
+    }
+
+
     /**
      * 邀请推流
      *
-     * @param sessionId
-     * @param ip
-     * @param port
-     * @param isTcp
+     * @param channelId 国标通道id
+     * @param ip        媒体服务器ip
+     * @param rtpPort   媒体端口
+     * @param isTcp     是否为tcp
      * @param isActive
-     * @param sessionName
-     * @param ssrc
+     * @param ssrc      流标识
      * @return
      * @author cqmike
      * @since 1.0.0
      */
-    public static String buildRealTimeMediaStreamInviteContent(String sessionId, String ip, int port, boolean isTcp, boolean isActive, String sessionName, String ssrc) {
+    public static String buildRealTimeMediaStreamInviteContent(String channelId, String ip, int rtpPort, boolean isTcp, boolean isActive, String ssrc) {
         StringBuilder content = new StringBuilder(200);
         content.append("v=0\r\n");
-        content.append("o=").append(sessionId).append(" 0 0 IN IP4 ").append(ip).append("\r\n");
-        content.append("s=").append(sessionName).append("\r\n");
+        content.append("o=").append(channelId).append(" 0 0 IN IP4 ").append(ip).append("\r\n");
+        content.append("s=Play\r\n");
         content.append("c=IN IP4 ").append(ip).append("\r\n");
         content.append("t=0 0\r\n");
-        content.append("m=video ").append(port).append(" ").append(isTcp ? "TCP/" : "").append("RTP/AVP 96 98 97\r\n");
-        content.append("a=sendrecv\r\n");
+        content.append("m=video ").append(rtpPort).append(" ").append(isTcp ? "TCP/" : "").append("RTP/AVP 96 98 97\r\n");
+        content.append("a=recvonly\r\n");
         content.append("a=rtpmap:96 PS/90000\r\n");
         content.append("a=rtpmap:98 H264/90000\r\n");
         content.append("a=rtpmap:97 MPEG4/90000\r\n");

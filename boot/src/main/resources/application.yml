@@ -1,6 +1,6 @@
-srs:
+iot:
   sip:
-    name: srs-sip
+    name: sip-server
     serial: 34020000002000000001
     realm: 3402000000
     ip: 192.168.50.58
@@ -13,3 +13,5 @@ srs:
     query_catalog_interval: 60
     trace_level: NONE
     log_message_content: false
+  rtc:
+    muxPort: 59000

@@ -32,7 +32,17 @@ public interface SipDeviceService {
      */
     Optional<SipDevice> findBySipDeviceId(String sipDeviceId);
 
+    /**
+     * 根据id更新在线状态
+     *
+     * @author cqmike
+     * @param device
+     * @since 1.0.0
+     * @return
+     */
     void updateOnline(SipDevice device);
+
+    void updateKeepLive(String sipDeviceId);
 
     /**
      * 保存或更新设备通道

@@ -16,7 +16,7 @@ import javax.validation.constraints.NotEmpty;
  * @since 1.0.0
  */
 @Data
-@ConfigurationProperties(prefix = "srs.sip", ignoreInvalidFields = true)
+@ConfigurationProperties(prefix = "iot.sip", ignoreInvalidFields = true)
 @EnableAutoConfiguration
 @Configuration
 public class SipConfig {
@@ -67,7 +67,7 @@ public class SipConfig {
 
     /**
      * # 注册之后是否自动给设备端发送invite
-     * # on: 是  off 不是，需要通过api控制
+     * # true: 是  false 不是，需要通过api控制
      */
     private boolean autoPlay = false;
 

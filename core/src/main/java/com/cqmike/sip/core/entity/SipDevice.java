@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * SipDevice
@@ -111,6 +112,12 @@ public class SipDevice extends BaseEntity {
      */
     private LocalDateTime createdAt;
 
-
-    private Collection<DeviceChannel> deviceChannels;
+    /**
+     * 设备通道列表
+     *
+     * @author cqmike
+     * @since 1.0.0
+     * @return
+     */
+    private List<DeviceChannel> deviceChannels;
 }
