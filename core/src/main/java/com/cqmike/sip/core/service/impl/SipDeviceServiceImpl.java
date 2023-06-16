@@ -2,18 +2,19 @@ package com.cqmike.sip.core.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.cqmike.sip.core.entity.DeviceChannel;
+import com.cqmike.sip.core.entity.RecordInfo;
 import com.cqmike.sip.core.entity.SipDevice;
+import com.cqmike.sip.core.gb28181.event.response.impl.InviteResponseEvent;
 import com.cqmike.sip.core.service.SipDeviceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * sip设备接口
@@ -26,11 +27,13 @@ import java.util.Optional;
 public class SipDeviceServiceImpl implements SipDeviceService {
 
     public static final Map<String, SipDevice> map = new HashMap<>();
+    public static final Map<String, List<RecordInfo>> recordListMap = new HashMap<>();
+    public static final Map<String, Map<String, InviteResponseEvent>> inviteStreamResponseMap = new HashMap<>();
 
     /**
      * 注册或更新设备
      *
-     * @param event
+     * @param registerDevice
      * @return
      * @author cqmike
      * @since 1.0.0
@@ -117,5 +120,58 @@ public class SipDeviceServiceImpl implements SipDeviceService {
             dev.setDeviceChannels(CollUtil.newArrayList(deviceChannels));
             dev.setChannelCount(deviceChannels.size());
         });
+    }
+
+    /**
+     * 保存邀请流响应
+     *
+     * @param deviceId
+     * @param channelId
+     * @param event
+     * @return
+     * @author cqmike
+     * @since 1.0.0
+     */
+    @Override
+    public void saveStreamResponse(String deviceId, String channelId, InviteResponseEvent event) {
+        inviteStreamResponseMap.putIfAbsent(deviceId, new ConcurrentHashMap<>());
+        inviteStreamResponseMap.get(deviceId).put(channelId, event);
+    }
+
+    @Override
+    public Optional<InviteResponseEvent> getStreamResponse(String deviceId, String channelId) {
+        Map<String, InviteResponseEvent> eventMap = inviteStreamResponseMap.get(deviceId);
+        if (CollUtil.isEmpty(eventMap)) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(eventMap.get(channelId));
+    }
+
+    @Override
+    public void removeStreamResponse(String deviceId, String channelId) {
+        Map<String, InviteResponseEvent> eventMap = inviteStreamResponseMap.get(deviceId);
+        if (CollUtil.isEmpty(eventMap)) {
+            return;
+        }
+        eventMap.remove(channelId);
+        if (eventMap.size() == 0) {
+            inviteStreamResponseMap.remove(deviceId);
+        }
+    }
+
+    @Override
+    public void saveRecordInfoList(String deviceId, List<RecordInfo> recordInfos) {
+        if (StrUtil.isEmpty(deviceId) || CollUtil.isEmpty(recordInfos)) {
+            return;
+        }
+        recordListMap.put(deviceId, recordInfos);
+    }
+
+    @Override
+    public List<RecordInfo> listRecordInfo(String deviceId) {
+        if (StrUtil.isEmpty(deviceId)) {
+            return Collections.emptyList();
+        }
+        return recordListMap.getOrDefault(deviceId, Collections.emptyList());
     }
 }

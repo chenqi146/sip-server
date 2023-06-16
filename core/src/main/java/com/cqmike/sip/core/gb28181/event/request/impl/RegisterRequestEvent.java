@@ -1,4 +1,4 @@
-package com.cqmike.sip.core.gb28181.event.request;
+package com.cqmike.sip.core.gb28181.event.request.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.cqmike.sip.core.gb28181.annotation.ReqEventHandler;

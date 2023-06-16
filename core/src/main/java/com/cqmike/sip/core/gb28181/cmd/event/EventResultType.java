@@ -1,34 +1,23 @@
-package com.cqmike.sip.core.gb28181.enums;
+package com.cqmike.sip.core.gb28181.cmd.event;
 
 import com.cqmike.sip.common.enums.IEnum;
 
-
 /**
- * SipMethod
+ * sip响应类型
  *
  * @author cqmike
  **/
-public enum SipResMethod implements IEnum<String> {
-    REGISTER("注册"),
-    MESSAGE("消息"),
-    ACK("ACK"),
-    BYE("BYE"),
-    CANCEL("取消"),
-    INVITE("邀请"),
-    OPTIONS("OPTIONS"),
-    NOTIFY("通知"),
-    SUBSCRIBE("订阅"),
-    REFER("REFER"),
-    INFO("INFO"),
-    PRACK("PRACK"),
-    UPDATE("UPDATE"),
-    PUBLISH("发布"),
-    ;
-
+public enum EventResultType implements IEnum<String> {
+    timeout("超时"),
+    response("回复"),
+    transactionTerminated("事务已结束"),
+    dialogTerminated("会话已结束"),
+    deviceNotFoundEvent("设备未找到"),
+    cmdSendFailEvent("设备未找到");
 
     private final String message;
 
-    SipResMethod(String message) {
+    EventResultType(String message) {
         this.message = message;
     }
 

@@ -1,4 +1,4 @@
-package com.cqmike.sip.core.gb28181.event.message;
+package com.cqmike.sip.core.gb28181.event.request.message.impl;
 
 import com.cqmike.sip.common.exceptions.SipParseException;
 import com.cqmike.sip.core.gb28181.annotation.ReqEventHandler;

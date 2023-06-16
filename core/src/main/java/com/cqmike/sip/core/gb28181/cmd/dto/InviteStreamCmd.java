@@ -1,4 +1,4 @@
-package com.cqmike.sip.core.gb28181.dto;
+package com.cqmike.sip.core.gb28181.cmd.dto;
 
 import com.cqmike.sip.core.entity.SipDevice;
 import lombok.AllArgsConstructor;
@@ -15,15 +15,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InviteStreamDTO {
+public class InviteStreamCmd {
 
-    private SipDevice sipDevice;
+    protected SipDevice sipDevice;
 
-    private String sipDeviceChannelId;
+    protected String sipDeviceChannelId;
 
     /**
      * 流标识
      */
-    private String ssrc;
+    protected String ssrc;
 
 }

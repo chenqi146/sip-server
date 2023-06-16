@@ -1,8 +1,7 @@
 package com.cqmike.sip.core.gb28181.helper;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 /**
  * SipContentHelper
@@ -39,6 +38,38 @@ public final class SipContentHelper {
 //        query.addElement("SN").addText("1");
 //        query.addElement("DeviceID").addText(deviceId);
 //        return document.asXML();
+    }
+
+    public static long getTimeStamp(LocalDateTime localDateTime) {
+        return localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    }
+
+    public static String buildHistoryTimeMediaStreamInviteContent(String channelId, String ip, int rtpPort, String ssrc,
+                                                                  LocalDateTime startTime, LocalDateTime endTime) {
+        return buildHistoryTimeMediaStreamInviteContent(channelId, ip, rtpPort, ssrc, false, false, startTime, endTime);
+    }
+
+    public static String buildHistoryTimeMediaStreamInviteContent(String channelId, String ip, int rtpPort,
+                                                                  String ssrc, boolean isTcp, boolean isActive,
+                                                                  LocalDateTime startTime, LocalDateTime endTime) {
+        StringBuilder content = new StringBuilder(200);
+        content.append("v=0\r\n");
+        content.append("o=").append(channelId).append(" 0 0 IN IP4 ").append(ip).append("\r\n");
+        content.append("s=Playback\r\n");
+        content.append("c=IN IP4 ").append(ip).append("\r\n");
+        content.append("t=").append(getTimeStamp(startTime)).append(" ").append(getTimeStamp(endTime)).append("\r\n");
+        content.append("m=video ").append(rtpPort).append(" ").append(isTcp ? "TCP/" : "").append("RTP/AVP 96 98 97\r\n");
+        content.append("a=recvonly\r\n");
+        content.append("a=rtpmap:96 PS/90000\r\n");
+        content.append("a=rtpmap:98 H264/90000\r\n");
+        content.append("a=rtpmap:97 MPEG4/90000\r\n");
+        if (isTcp) {
+            content.append("a=setup:").append(isActive ? "active" : "passive").append("\r\n");
+            content.append("a=connection:new\r\n");
+        }
+        content.append("y=").append(ssrc).append("\r\n");
+        return content.toString();
+
     }
 
     public static String buildRealTimeMediaStreamInviteContent(String channelId, String ip, int rtpPort, String ssrc) {
@@ -78,4 +109,5 @@ public final class SipContentHelper {
         content.append("y=").append(ssrc).append("\r\n");
         return content.toString();
     }
+
 }

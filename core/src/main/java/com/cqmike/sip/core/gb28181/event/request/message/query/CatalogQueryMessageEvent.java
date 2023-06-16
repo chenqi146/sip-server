@@ -1,12 +1,8 @@
-package com.cqmike.sip.core.gb28181.event.response;
+package com.cqmike.sip.core.gb28181.event.request.message.query;
 
 import com.cqmike.sip.core.gb28181.annotation.MessageEventHandler;
-import com.cqmike.sip.core.gb28181.annotation.ReqEventHandler;
-import com.cqmike.sip.core.gb28181.annotation.ResEventHandler;
 import com.cqmike.sip.core.gb28181.dto.DeviceChannelDTO;
 import com.cqmike.sip.core.gb28181.enums.SipMessageType;
-import com.cqmike.sip.core.gb28181.enums.SipMethod;
-import com.cqmike.sip.core.gb28181.enums.SipResMethod;
 import com.cqmike.sip.core.gb28181.event.base.AbstractMessageRequestEvent;
 import com.cqmike.sip.core.gb28181.helper.XmlHelper;
 import lombok.*;
@@ -29,7 +25,7 @@ import java.util.Optional;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Response")
 @MessageEventHandler(type = SipMessageType.QUERY_CATALOG)
-public class CatalogQueryResponseEvent extends AbstractMessageRequestEvent {
+public class CatalogQueryMessageEvent extends AbstractMessageRequestEvent {
 
     @XmlElement(name = "DeviceID")
     private String deviceId;
@@ -49,7 +45,7 @@ public class CatalogQueryResponseEvent extends AbstractMessageRequestEvent {
     @Override
     public void parse() throws JAXBException {
         String content = this.content;
-        CatalogQueryResponseEvent catalogMessageResponse = XmlHelper.xmlToBean(content, CatalogQueryResponseEvent.class);
+        CatalogQueryMessageEvent catalogMessageResponse = XmlHelper.xmlToBean(content, CatalogQueryMessageEvent.class);
         Optional.ofNullable(catalogMessageResponse).ifPresent(res -> {
             this.abstractMessageRequestEvent = catalogMessageResponse;
             this.deviceId = catalogMessageResponse.getDeviceId();

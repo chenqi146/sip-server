@@ -1,4 +1,4 @@
-package com.cqmike.sip.core.gb28181.event.message.notify;
+package com.cqmike.sip.core.gb28181.event.request.message.notify;
 
 import com.cqmike.sip.core.gb28181.annotation.MessageEventHandler;
 import com.cqmike.sip.core.gb28181.enums.SipMessageType;
@@ -25,7 +25,7 @@ import java.util.Objects;
 @XmlRootElement(name = "Notify")
 @XmlAccessorType(XmlAccessType.FIELD)
 @MessageEventHandler(type = SipMessageType.NOTIFY_KEEPALIVE)
-public class KeepLiveMessageRequestEvent extends AbstractMessageRequestEvent {
+public class KeepLiveMessageEvent extends AbstractMessageRequestEvent {
     @XmlElement(name = "CmdType")
     private String cmdType;
 
@@ -44,7 +44,7 @@ public class KeepLiveMessageRequestEvent extends AbstractMessageRequestEvent {
     @Override
     public void parse() throws Exception {
         String content = this.content;
-        KeepLiveMessageRequestEvent bean = XmlHelper.xmlToBean(content, KeepLiveMessageRequestEvent.class);
+        KeepLiveMessageEvent bean = XmlHelper.xmlToBean(content, KeepLiveMessageEvent.class);
         if (Objects.nonNull(bean)) {
             this.abstractMessageRequestEvent = bean;
             this.cmdType = bean.getCmdType();

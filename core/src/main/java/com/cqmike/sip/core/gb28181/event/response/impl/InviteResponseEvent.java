@@ -1,8 +1,8 @@
-package com.cqmike.sip.core.gb28181.event.response;
+package com.cqmike.sip.core.gb28181.event.response.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.cqmike.sip.core.gb28181.annotation.ResEventHandler;
-import com.cqmike.sip.core.gb28181.enums.SipResMethod;
+import com.cqmike.sip.core.gb28181.enums.SipMethod;
 import com.cqmike.sip.core.gb28181.event.base.AbstractResponseEvent;
 import gov.nist.javax.sip.header.AddressParametersHeader;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @ Date 24/2/2022 上午1:01
  */
 @Slf4j
-@ResEventHandler(method = SipResMethod.INVITE)
+@ResEventHandler(method = SipMethod.INVITE)
 public class InviteResponseEvent extends AbstractResponseEvent {
 
     private String deviceId;
@@ -29,20 +29,22 @@ public class InviteResponseEvent extends AbstractResponseEvent {
     private String streamCode;
 
     @Override
-    public void process() {
+    public void parse() {
         if (isSuccess()) {
 
             responseAck();
-            log.info("接收到拉流响应： {}", getContent());
             AddressParametersHeader header = (AddressParametersHeader) response.getHeader("To");
             SipURI sipURI = (SipURI) header.getAddress().getURI();
             this.channelId = sipURI.getUser();
+
+            AddressParametersHeader contact = (AddressParametersHeader) response.getHeader("Contact");
+            SipURI contactUri = (SipURI) contact.getAddress().getURI();
+            this.deviceId = contactUri.getUser();
+
             Map<String, String> contentMap = convert();
             if (contentMap != null && contentMap.size() > 0) {
                 String streamField = "y";
                 this.streamCode = contentMap.get(streamField);
-                String deviceField = "o";
-                this.deviceId = contentMap.get(deviceField).substring(0, 20);
             }
             log.info("目标客户端 {}", this.channelId);
         }

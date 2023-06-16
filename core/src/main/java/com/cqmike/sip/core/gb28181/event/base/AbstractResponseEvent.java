@@ -5,15 +5,12 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.sip.Dialog;
-import javax.sip.InvalidArgumentException;
 import javax.sip.ResponseEvent;
 import javax.sip.SipException;
 import javax.sip.address.SipURI;
 import javax.sip.header.CSeqHeader;
 import javax.sip.message.Request;
 import javax.sip.message.Response;
-import java.io.UnsupportedEncodingException;
-import java.text.ParseException;
 
 /**
  * @author <a href="mailto:cqmike0315@gmail.com">chenqi</a>
@@ -31,7 +28,7 @@ public abstract class AbstractResponseEvent {
     protected String content;
     protected Response response;
 
-    public abstract void process() throws Exception;
+    public abstract void parse() throws Exception;
 
     public void init(ResponseEvent responseEvent) throws Exception {
         this.responseEvent = responseEvent;
@@ -46,6 +43,7 @@ public abstract class AbstractResponseEvent {
         requestURI.setHost(event.getRemoteIpAddress());
         requestURI.setPort(event.getRemotePort());
         reqAck.setRequestURI(requestURI);
+        parse();
     }
 
 

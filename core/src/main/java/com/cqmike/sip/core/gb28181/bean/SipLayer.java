@@ -2,7 +2,7 @@ package com.cqmike.sip.core.gb28181.bean;
 
 import com.cqmike.sip.common.exceptions.SipBeanInitException;
 import com.cqmike.sip.core.gb28181.config.SipConfig;
-import com.cqmike.sip.core.gb28181.listeners.base.SipServerDispatcher;
+import com.cqmike.sip.core.gb28181.dispatcher.SipServerDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

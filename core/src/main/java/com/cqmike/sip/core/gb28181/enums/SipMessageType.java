@@ -15,6 +15,7 @@ import java.util.Optional;
 @Getter
 public enum SipMessageType implements IEnum<String> {
     QUERY_CATALOG("Response", "Catalog", "查询设备信息响应"),
+    QUERY_RECORD_INFO("Response", "RecordList", "查询设备录像列表响应"),
     NOTIFY_KEEPALIVE("Notify", "Keepalive", "心跳"),
     NOTIFY_ALARM("Notify", "Alarm", "告警"),
     ;

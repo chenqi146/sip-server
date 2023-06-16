@@ -1,11 +1,25 @@
 package com.cqmike.sip.core.gb28181.callback;
 
-import java.util.concurrent.CompletableFuture;
+import com.cqmike.sip.core.entity.DeviceStream;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 
 /**
  * 邀请推流web回调
  *
  * @author cqmike
  **/
-public class InviteStreamFuture extends CompletableFuture<Object> {
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class InviteStreamFuture extends AbstractSipFuture<DeviceStream> {
+
+    /**
+     * 设备流信息
+     */
+    private DeviceStream deviceStream;
+
+
+
+
 }

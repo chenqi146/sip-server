@@ -1,22 +1,16 @@
-package com.cqmike.sip.core.gb28181.listeners;
+package com.cqmike.sip.core.gb28181.event.request.impl;
 
 import com.cqmike.sip.core.entity.SipDevice;
-import com.cqmike.sip.core.gb28181.cmd.SipCommander;
-import com.cqmike.sip.core.gb28181.config.SipConfig;
-import com.cqmike.sip.core.gb28181.event.request.RegisterRequestEvent;
-import com.cqmike.sip.core.gb28181.listeners.base.AbstractSipListener;
-import com.cqmike.sip.core.gb28181.transaction.ServerTransactionFactory;
-import com.cqmike.sip.core.gb28181.transaction.SipProtocolFactory;
+import com.cqmike.sip.core.gb28181.enums.SipMethod;
+import com.cqmike.sip.core.gb28181.event.request.AbstractSipRequestProcessor;
 import com.cqmike.sip.core.service.SipDeviceService;
 import gov.nist.javax.sip.clientauthutils.DigestServerAuthenticationHelper;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.event.EventListener;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.sip.RequestEvent;
 import javax.sip.header.AuthorizationHeader;
 import javax.sip.header.ContactHeader;
-import javax.sip.header.HeaderFactory;
 import javax.sip.message.Request;
 import javax.sip.message.Response;
 import java.util.Calendar;
@@ -24,25 +18,23 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * 设备请求监听处理器
+ * 注册处理器
  *
  * @author cqmike
  **/
-@Slf4j
 @Component
-public class RequestListener extends AbstractSipListener {
+@RequiredArgsConstructor
+public class RegisterRequestProcessor extends AbstractSipRequestProcessor<RegisterRequestEvent> {
 
     private final SipDeviceService sipDeviceService;
 
-    public RequestListener(SipConfig sipConfig, ServerTransactionFactory serverTransactionFactory,
-                           SipProtocolFactory sipProtocolFactory, HeaderFactory headerFactory,
-                           SipCommander sipCommander, SipDeviceService sipDeviceService) {
-        super(sipConfig, serverTransactionFactory, sipProtocolFactory, headerFactory, sipCommander);
-        this.sipDeviceService = sipDeviceService;
+    @Override
+    public SipMethod method() {
+        return SipMethod.REGISTER;
     }
 
-    @EventListener
-    public void registerEvent(RegisterRequestEvent event) {
+    @Override
+    public void process(RegisterRequestEvent event) {
 
         try {
             RequestEvent requestEvent = event.getRequestEvent();
@@ -82,11 +74,11 @@ public class RequestListener extends AbstractSipListener {
                 return;
             }
 
+            // 下发查询catalog
             sipCommander.catalogQuery(device);
         } catch (Exception e) {
             log.error("设备注册处理异常, event: {}, error: ", event, e);
         }
     }
-
 
 }

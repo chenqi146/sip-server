@@ -1,5 +1,6 @@
 package com.cqmike.sip.core.gb28181.transaction;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.cqmike.sip.common.exceptions.SipParseException;
 import com.cqmike.sip.common.exceptions.SipRequestBuildException;
@@ -53,6 +54,23 @@ public class SipProtocolFactory {
         this.messageFactory = sipFactory.createMessageFactory();
     }
 
+    public String buildRealSsrc() {
+        String real = "0";
+        String serial = sipConfig.getSerial();
+        String domain = StrUtil.sub(serial, 3, 8);
+        String random = RandomUtil.randomNumbers(4);
+        return real + domain + random;
+    }
+
+
+    public String buildHistorySsrc() {
+        String history = "1";
+        String serial = sipConfig.getSerial();
+        String domain = StrUtil.sub(serial, 3, 8);
+        String random = RandomUtil.randomNumbers(4);
+        return history + domain + random;
+    }
+
     public Response buildResponse(int responseStatus, Request request) throws ParseException {
         return messageFactory.createResponse(responseStatus, request);
     }
@@ -91,8 +109,7 @@ public class SipProtocolFactory {
             SipURI requestLine = addressFactory.createSipURI(id, StrUtil.format("{}:{}", sipDevice.getIp(), sipDevice.getPort()));
             //Via头
             List<ViaHeader> viaHeaderList = new ArrayList<>();
-            ViaHeader viaHeader = headerFactory.createViaHeader(sipConfig.getIp(), sipConfig.getPort(), sipDevice.getMediaTransport(), "FromSip" + tm);
-//            viaHeader.setReceived(sipConfig.getIp());
+            ViaHeader viaHeader = headerFactory.createViaHeader(sipConfig.getIp(), sipConfig.getPort(), sipDevice.getMediaTransport(), "z9hG4bK" + tm);
             viaHeader.setRPort();
             viaHeaderList.add(viaHeader);
 
